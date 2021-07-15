@@ -21,5 +21,6 @@ jobs:
       - run: docker-compose up -d
       - run: mix deps.get
       - run: mix credo --strict
+        continue-on-error: true
       - run: mix dialyzer
       - run: mix test
