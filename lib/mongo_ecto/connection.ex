@@ -307,7 +307,7 @@ defmodule Mongo.Ecto.Connection do
     end
   end
 
-  defp check_constraint_errors(%Mongo.Error{code: 11000, message: msg}) do
+  defp check_constraint_errors(%Mongo.Error{code: 11_000, message: msg}) do
     {:invalid, [unique: extract_index(msg)]}
   end
 

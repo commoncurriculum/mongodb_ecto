@@ -12,7 +12,8 @@ defmodule Mongo.Ecto.Mixfile do
       test_coverage: [tool: ExCoveralls],
       description: description(),
       package: package(),
-      docs: docs()
+      docs: docs(),
+      dialyzer: dialyzer(),
     ]
   end
 
@@ -22,13 +23,14 @@ defmodule Mongo.Ecto.Mixfile do
 
   defp deps do
     [
-      {:mongodb, github: "commoncurriculum/mongodb", branch: "ecto-3"},
-      {:ecto, "~> 3.6"},
+      {:credo, "~> 1.5.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1.0", only: :dev, runtime: false},
+      {:earmark, "~> 1.0", only: :dev},
+      {:ecto, "~> 3.6"},
+      {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, "~> 0.8", only: :test},
       {:inch_ex, "~> 2.0.0", only: [:dev, :test]},
-      {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:mongodb, github: "commoncurriculum/mongodb", branch: "ecto-3"},
       {:poolboy, ">= 1.5.0", only: [:dev, :test]},
       {:telemetry, ">= 0.4.0"}
     ]
@@ -55,6 +57,17 @@ defmodule Mongo.Ecto.Mixfile do
       source_ref: "v#{@version}",
       main: "readme",
       extras: ["README.md"]
+    ]
+  end
+
+  # Configures dialyzer (static analysis tool for Elixir / Erlang).
+  #
+  # The `dialyzer.plt` file takes a long time to generate first time round, so we store it in a
+  # custom location where it can then be easily cached during CI.
+  defp dialyzer do
+    [
+      # plt_add_apps: [:eex, :mix, :jason],
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
     ]
   end
 end
